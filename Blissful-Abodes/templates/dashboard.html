@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - {{ user }}{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1><i class="fas fa-tachometer-alt text-primary me-2"></i>Welcome, {{ user }}!</h1>
+            <p class="lead">Manage your bookings and account settings.</p>
+        </div>
+        <a href="{{ url_for('index') }}" class="btn btn-primary">
+            <i class="fas fa-hotel me-2"></i>Book Room
+        </a>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card text-center h-100 shadow">
+                <div class="card-body">
+                    <i class="fas fa-bed fa-3x text-primary mb-3"></i>
+                    <h4>Available Rooms</h4>
+                    <p class="card-text">3 room types available for booking</p>
+                    <a href="{{ url_for('index') }}" class="btn btn-outline-primary">View Rooms</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center h-100 shadow">
+                <div class="card-body">
+                    <i class="fas fa-calendar-check fa-3x text-success mb-3"></i>
+                    <h4>My Bookings</h4>
+                    <p class="card-text">View your reservations and status</p>
+                    <a href="#" class="btn btn-outline-success">View Bookings</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center h-100 shadow">
+                <div class="card-body">
+                    <i class="fas fa-cog fa-3x text-warning mb-3"></i>
+                    <h4>Account Settings</h4>
+                    <p class="card-text">Update profile and preferences</p>
+                    <a href="#" class="btn btn-outline-warning">Settings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5>Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">No recent bookings. <a href="{{ url_for('index') }}">Book your first room now!</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

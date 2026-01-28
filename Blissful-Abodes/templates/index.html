@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Website Is Back</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      max-width: 600px;
+      text-align: center;
+      padding: 2rem;
+      background: #020617;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      border: 1px solid #1e293b;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #38bdf8;
+    }
+    p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: #22c55e;
+      color: #022c22;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: bold;
+      margin-top: 0.5rem;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+    .btn:hover {
+      background: #16a34a;
+      transform: translateY(-1px);
+    }
+    .small {
+      font-size: 0.85rem;
+      color: #9ca3af;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>My Website Is Back 🚀</h1>
+    <p>Thanks for visiting. The site was down for a while, but it’s now back online.</p>
+    <p>If you’re looking for something specific, please contact me directly.</p>
+    <a href="mailto:you@example.com" class="btn">Contact Me</a>
+    <div class="small">
+      <p>&copy; <span id="year"></span> Your Name. All rights reserved.</p>
+    </div>
+  </div>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+

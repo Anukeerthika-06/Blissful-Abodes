@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}User Login{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 d-flex align-items-center"
+     style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow-lg border-0"
+                     style="background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-5">
+                            <h1 class="h3 fw-bold text-primary mb-2">Welcome Back</h1>
+                            <p class="text-muted">Sign in to your account</p>
+                        </div>
+
+                        <form method="POST" action="{{ url_for('login') }}">
+                            {% if error %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endif %}
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Email</label>
+                                <input type="email"
+                                       name="email"
+                                       class="form-control form-control-lg"
+                                       placeholder="Enter your email"
+                                       required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Password</label>
+                                <input type="password"
+                                       name="password"
+                                       class="form-control form-control-lg"
+                                       placeholder="Enter your password"
+                                       required>
+                            </div>
+
+                            <button type="submit"
+                                    class="btn btn-primary btn-lg w-100 py-3 fw-bold">
+                                <i class="fas fa-sign-in-alt me-2"></i> Sign In
+                            </button>
+                        </form>
+
+                        <div class="text-center mt-4">
+                            <p class="text-muted mb-0">
+                                Don't have an account?
+                                <a href="{{ url_for('signup') }}"
+                                   class="text-primary fw-bold">Sign Up</a>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

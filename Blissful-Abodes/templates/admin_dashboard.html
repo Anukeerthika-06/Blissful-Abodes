@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-5 fw-bold text-primary">
+                <i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard
+            </h1>
+            <p class="lead text-muted">Manage Blissful Abodes – Real-time analytics & bookings</p>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-5">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs fw-bold text-primary text-uppercase mb-1">Total Rooms</div>
+                    <div class="h5 mb-0 fw-bold" id="roomsCount">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs fw-bold text-success text-uppercase mb-1">Total Users</div>
+                    <div class="h5 mb-0 fw-bold" id="usersCount">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs fw-bold text-info text-uppercase mb-1">Total Bookings</div>
+                    <div class="h5 mb-0 fw-bold" id="bookingsCount">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs fw-bold text-warning text-uppercase mb-1">Occupancy</div>
+                    <div class="h5 mb-0 fw-bold" id="occupancyRate">0%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row mb-5">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header fw-bold text-primary">Live Booking Analytics</div>
+                <div class="card-body">
+                    <canvas id="bookingChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow">
+                <div class="card-header fw-bold text-primary">Occupancy Rate</div>
+                <div class="card-body">
+                    <canvas id="occupancyChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+let bookingChart, occupancyChart;
+
+// Initialize charts
+function initCharts() {
+    bookingChart = new Chart(document.getElementById('bookingChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Users', 'Rooms', 'Bookings'],
+            datasets: [{
+                label: 'Live Data',
+                data: [0, 0, 0]
+            }]
+        }
+    });
+
+    occupancyChart = new Chart(document.getElementById('occupancyChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Occupied', 'Available'],
+            datasets: [{
+                data: [0, 100]
+            }]
+        }
+    });
+}
+
+// Fetch real-time data
+function loadLiveData() {
+    fetch('/admin/live-data')
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("usersCount").innerText = data.users;
+            document.getElementById("roomsCount").innerText = data.rooms;
+            document.getElementById("bookingsCount").innerText = data.bookings;
+
+            let occupancy = data.rooms > 0
+                ? Math.round((data.bookings / data.rooms) * 100)
+                : 0;
+
+            document.getElementById("occupancyRate").innerText = occupancy + "%";
+
+            bookingChart.data.datasets[0].data = [
+                data.users,
+                data.rooms,
+                data.bookings
+            ];
+            bookingChart.update();
+
+            occupancyChart.data.datasets[0].data = [
+                occupancy,
+                100 - occupancy
+            ];
+            occupancyChart.update();
+        });
+}
+
+initCharts();
+loadLiveData();
+setInterval(loadLiveData, 5000);
+</script>
+{% endblock %}

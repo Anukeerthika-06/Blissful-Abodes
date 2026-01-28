@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section position-relative">
+    <div class="hero-overlay"></div>
+    <div class="container h-100 d-flex align-items-center text-center text-white position-relative z-2">
+        <div class="w-100">
+            <h1 class="display-3 fw-bold mb-4">
+                Welcome to <span class="blissful-blue">Blissful Abodes</span>
+            </h1>
+            <p class="lead fs-4 mb-5 px-3">
+                Experience luxury and comfort at affordable prices
+            </p>
+            <div class="d-flex flex-column flex-lg-row justify-content-center gap-3">
+                <a href="#featured-rooms" class="btn btn-light btn-lg px-5 py-3 fs-5 shadow-lg matching-btn">
+                    Explore Rooms
+                </a>
+                <a href="#featured-rooms" class="btn btn-light btn-lg px-5 py-3 fs-5 shadow-lg matching-btn">
+                    Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Rooms -->
+<section id="featured-rooms" class="container my-5 py-5">
+    <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold mb-3 text-primary">Featured Rooms</h2>
+        <p class="lead text-muted">Choose from our premium collection of 9 room types</p>
+    </div>
+
+    <div class="row g-4">
+        {% for room in [
+    {'id':1,'name':'Deluxe Room','price':2500,'capacity':2,'img':'/static/images/deluxe.jpg'},
+    {'id':2,'name':'Family Suite','price':4200,'capacity':4,'img':'/static/images/family_suite.jpg'},
+    {'id':3,'name':'Single Room','price':1500,'capacity':1,'img':'/static/images/single.png'},
+    {'id':4,'name':'Executive Suite','price':3500,'capacity':2,'img':'/static/images/executive_suite.jpg'},
+    {'id':5,'name':'Premium Villa','price':12000,'capacity':6,'img':'/static/images/premium_villa.avif'},
+    {'id':6,'name':'Superior Double','price':2200,'capacity':2,'img':'/static/images/superior_double.jpg'},
+    {'id':7,'name':'Penthouse Suite','price':8500,'capacity':4,'img':'/static/images/penthouse.jpg'},
+    {'id':8,'name':'Economy Twin','price':1800,'capacity':2,'img':'/static/images/economy_twin.jpg'},
+    {'id':9,'name':'Junior Suite','price':3200,'capacity':3,'img':'/static/images/junior_suite.jpeg'}
+] %}
+<div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-lg border-0 overflow-hidden room-card">
+
+                <!-- BED IMAGE (BASED ON ROOM TYPE) -->
+                <div class="position-relative" style="height:280px;">
+                    <img src="{{ room.img }}"
+                         alt="{{ room.name }}"
+                         style="width:100%; height:100%; object-fit:cover;">
+
+                    <div class="position-absolute top-0 start-0 m-3">
+                        <span class="badge bg-light text-primary fs-6 px-3 py-2 shadow fw-bold">
+                            Max {{ room.capacity }}
+                        </span>
+                    </div>
+
+                    <div class="position-absolute bottom-0 end-0 m-3">
+                        <span class="badge bg-success fs-6 px-3 py-2 shadow fw-bold">
+                            AVAILABLE
+                        </span>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 d-flex flex-column">
+                    <h5 class="card-title fw-bold mb-3 text-primary">
+                        {{ room.name }}
+                    </h5>
+
+                    <p class="card-text flex-grow-1 text-muted mb-4">
+                        Comfortable bedding designed for {{ room.capacity }} guest{{ 's' if room.capacity > 1 else '' }}
+                        with modern amenities.
+                    </p>
+
+                    <div class="d-flex justify-content-between align-items-end mt-auto">
+                        <div>
+                            <h3 class="text-success mb-0">₹{{ room.price }}</h3>
+                            <small class="text-muted">per night</small>
+                        </div>
+                        <a href="{{ url_for('booking', room_id=room.id) }}"
+                           class="btn btn-success btn-lg px-4 shadow-sm">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
+
+<style>
+.hero-section {
+    min-height: 80vh;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);
+    display: flex;
+    align-items: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 1;
+}
+
+.blissful-blue {
+    color: #2c5aa0 !important;
+    font-weight: 900;
+}
+
+.matching-btn {
+    background-color: white !important;
+    color: #2c5aa0 !important;
+    font-weight: 600;
+}
+
+.room-card {
+    transition: all 0.4s ease;
+    border-radius: 20px;
+}
+
+.room-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3) !important;
+}
+
+@media (max-width: 768px) {
+    .hero-section { min-height: 70vh; }
+    .display-3 { font-size: 2.3rem !important; }
+}
+</style>

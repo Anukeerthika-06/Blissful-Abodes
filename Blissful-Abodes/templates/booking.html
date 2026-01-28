@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %}{{ room.name }} - Book Now{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+            <li class="breadcrumb-item active">{{ room.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+
+        <!-- LEFT: Room Details + Image -->
+        <div class="col-md-7">
+            <div class="card shadow mb-4">
+
+                <!-- Room Image - FIXED FOR LOCAL STATIC FILES -->
+                <img src="{{ url_for('static', filename=room.image) }}" 
+                     alt="{{ room.name }}"
+                     class="card-img-top rounded-top"
+                     style="height:350px; object-fit:cover;">
+
+                <div class="card-body">
+                    <h3 class="fw-bold">{{ room.name }}</h3>
+                    <p class="text-muted">Premium comfort and modern amenities</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Price per night</span>
+                            <strong>₹{{ room.price }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Max Guests</span>
+                            <span>{{ room.capacity }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Booking Form -->
+        <div class="col-md-5">
+            <div class="card shadow sticky-top" style="top: 20px;">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-calendar-check me-2"></i>Complete Your Booking</h5>
+                </div>
+
+                <div class="card-body">
+                    <form method="POST">
+
+                        <!-- Dates -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Check-in Date</label>
+                            <input type="date" name="check_in" class="form-control"
+                                   value="{{ check_in or '' }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Check-out Date</label>
+                            <input type="date" name="check_out" class="form-control"
+                                   value="{{ check_out or '' }}" required>
+                        </div>
+
+                        <!-- Guests -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Guests</label>
+                            <select name="guests" class="form-select" required>
+                                <option value="">Select</option>
+                                {% for i in range(1, room.capacity + 1) %}
+                                <option value="{{ i }}" {% if guests == i|string %}selected{% endif %}>
+                                    {{ i }} Guest{{ 's' if i > 1 }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <hr>
+
+                        <!-- Guest Info -->
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" name="phone" class="form-control" required>
+                        </div>
+
+                        <!-- Confirm Button -->
+                        <button type="submit" class="btn btn-success w-100 btn-lg">
+                            <i class="fas fa-lock me-2"></i>Confirm Booking
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

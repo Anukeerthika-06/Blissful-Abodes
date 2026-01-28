@@ -1,0 +1,65 @@
+:root {
+    --primary-color: #2c5aa0;
+    --secondary-color: #f8f9fa;
+    --accent-color: #28a745;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI4MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGVsbGlwc2Ugc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJ3aGl0ZSIgY3g9IjYwMCIgY3k9IjQwMCIgcng9IjYwMCIgcnk9IjQwMCIvPgo8L3N2Zz4K') center/cover;
+    min-height: 60vh;
+    color: white;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.room-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    border-radius: 15px;
+}
+.hero-section {
+    min-height: 80vh;
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.55),
+            rgba(0,0,0,0.55)
+        ),
+        url("https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1600");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+}
+
+.hero-section h1 {
+    font-weight: 900;
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+}
+
+.room-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.admin-panel {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
