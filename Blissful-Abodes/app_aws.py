@@ -1,11 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-import os
 import boto3
 import uuid
 from datetime import datetime
-
-from werkzeug.utils import secure_filename
-from boto3.dynamodb.conditions import Key   # ✅ ADD THIS LINE
+from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 
 app = Flask(__name__)
@@ -35,11 +32,16 @@ def send_notification(subject, message):
     except ClientError as e:
         print("SNS Error:", e)
 
-# ---------------- USER ROUTES ----------------
+# ---------------- PUBLIC ROUTES ----------------
 @app.route("/")
 def index():
     return render_template("home.html")
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+# ---------------- USER AUTH ----------------
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -69,6 +71,7 @@ def login():
         response = users_table.get_item(Key={"email": email})
 
         if "Item" in response and response["Item"]["password"] == password:
+            session.clear()
             session["user"] = email
             send_notification("User Login", f"{email} logged in")
             return redirect(url_for("dashboard"))
@@ -77,6 +80,12 @@ def login():
 
     return render_template("login.html")
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
+
+# ---------------- USER DASHBOARD ----------------
 @app.route("/dashboard")
 def dashboard():
     if "user" not in session:
@@ -90,11 +99,6 @@ def dashboard():
 
     bookings = response.get("Items", [])
     return render_template("dashboard.html", bookings=bookings)
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect(url_for("index"))
 
 # ---------------- SEARCH & BOOKING ----------------
 @app.route("/search")
@@ -131,7 +135,7 @@ def book(room_id):
 
     return render_template("booking.html", room=room)
 
-# ---------------- ADMIN ROUTES ----------------
+# ---------------- ADMIN AUTH ----------------
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
@@ -141,6 +145,7 @@ def admin_login():
         response = admins_table.get_item(Key={"username": username})
 
         if "Item" in response and response["Item"]["password"] == password:
+            session.clear()
             session["admin"] = username
             return redirect(url_for("admin_dashboard"))
 
@@ -148,7 +153,12 @@ def admin_login():
 
     return render_template("admin_login.html")
 
-# ---------------- UPDATED ADMIN DASHBOARD ----------------
+@app.route("/admin/logout")
+def admin_logout():
+    session.clear()
+    return redirect(url_for("index"))
+
+# ---------------- ADMIN DASHBOARD ----------------
 @app.route("/admin/dashboard")
 def admin_dashboard():
     if "admin" not in session:
@@ -158,12 +168,14 @@ def admin_dashboard():
     rooms = rooms_table.scan().get("Items", [])
     bookings = bookings_table.scan().get("Items", [])
 
-    # Prepare summary stats
     stats = {
         "total_users": len(users),
         "total_rooms": len(rooms),
         "total_bookings": len(bookings),
-        "today_bookings": len([b for b in bookings if b.get("date") == datetime.now().strftime("%Y-%m-%d")])
+        "today_bookings": len([
+            b for b in bookings
+            if b.get("date") == datetime.now().strftime("%Y-%m-%d")
+        ])
     }
 
     return render_template(
@@ -195,12 +207,6 @@ def add_room():
 
     return render_template("add_room.html")
 
-@app.route("/admin/logout")
-def admin_logout():
-    session.clear()
-    return redirect(url_for("index"))
-
 # ---------------- RUN ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
-
