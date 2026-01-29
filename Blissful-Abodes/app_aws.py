@@ -17,7 +17,7 @@ REGION = "us-east-1"
 dynamodb = boto3.resource("dynamodb", region_name=REGION)
 sns = boto3.client("sns", region_name=REGION)
 
-SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:604665149129:hotel_booking_topic"
+SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:539247489202:aws_bliss_ai"
 
 users_table = dynamodb.Table("HotelUsers")
 admins_table = dynamodb.Table("HotelAdmins")
@@ -203,3 +203,4 @@ def admin_logout():
 # ---------------- RUN ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
