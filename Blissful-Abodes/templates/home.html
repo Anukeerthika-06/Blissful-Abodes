@@ -80,7 +80,7 @@
                             <h3 class="text-success mb-0">₹{{ room.price }}</h3>
                             <small class="text-muted">per night</small>
                         </div>
-                        <a href="{{ url_for('booking', room_id=room.id) }}"
+                        <a href="{{ url_for('book', room_id=room.id) }}"
                            class="btn btn-success btn-lg px-4 shadow-sm">
                             Book Now
                         </a>
@@ -136,3 +136,4 @@
     .display-3 { font-size: 2.3rem !important; }
 }
 </style>
+
