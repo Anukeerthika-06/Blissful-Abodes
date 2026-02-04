@@ -55,7 +55,7 @@
                     </div>
                     
                     <!-- Book Now Button -->
-                    <a href="{{ url_for('booking', room_id=room.id, check_in=check_in, check_out=check_out, guests=guests) }}"
+                    <a href="{{ url_for('book', room_id=room.id, check_in=check_in, check_out=check_out, guests=guests) }}"
                        class="btn btn-success w-100 btn-lg mt-auto">
                         <i class="fas fa-calendar-check me-2"></i>Book Now
                     </a>
