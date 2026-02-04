@@ -131,8 +131,8 @@ def search():
     return redirect(url_for('index'))
 
 # ---------------- BOOKING ----------------
-@app.route('/booking/<int:room_id>', methods=['GET', 'POST'])
-def booking(room_id):
+@app.route('/book/<int:room_id>', methods=['GET', 'POST'])
+def book(room_id):
     room = next((r for r in ROOMS if r['id'] == room_id), None)
     if not room:
         flash('Room not found!')
