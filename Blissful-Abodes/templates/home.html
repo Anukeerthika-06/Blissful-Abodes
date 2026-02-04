@@ -32,21 +32,23 @@
     </div>
 
     <div class="row g-4">
-        {% for room in [
-    {'id':1,'name':'Deluxe Room','price':2500,'capacity':2,'img':'/static/images/deluxe.jpg'},
-    {'id':2,'name':'Family Suite','price':4200,'capacity':4,'img':'/static/images/family_suite.jpg'},
-    {'id':3,'name':'Single Room','price':1500,'capacity':1,'img':'/static/images/single.png'},
-    {'id':4,'name':'Executive Suite','price':3500,'capacity':2,'img':'/static/images/executive_suite.jpg'},
-    {'id':5,'name':'Premium Villa','price':12000,'capacity':6,'img':'/static/images/premium_villa.avif'},
-    {'id':6,'name':'Superior Double','price':2200,'capacity':2,'img':'/static/images/superior_double.jpg'},
-    {'id':7,'name':'Penthouse Suite','price':8500,'capacity':4,'img':'/static/images/penthouse.jpg'},
-    {'id':8,'name':'Economy Twin','price':1800,'capacity':2,'img':'/static/images/economy_twin.jpg'},
-    {'id':9,'name':'Junior Suite','price':3200,'capacity':3,'img':'/static/images/junior_suite.jpeg'}
-] %}
-<div class="col-lg-4 col-md-6">
+        {% set rooms_list = [
+            {'id':1,'name':'Deluxe Room','price':2500,'capacity':2,'img':'/static/images/deluxe.jpg'},
+            {'id':2,'name':'Family Suite','price':4200,'capacity':4,'img':'/static/images/family_suite.jpg'},
+            {'id':3,'name':'Single Room','price':1500,'capacity':1,'img':'/static/images/single.png'},
+            {'id':4,'name':'Executive Suite','price':3500,'capacity':2,'img':'/static/images/executive_suite.jpg'},
+            {'id':5,'name':'Premium Villa','price':12000,'capacity':6,'img':'/static/images/premium_villa.avif'},
+            {'id':6,'name':'Superior Double','price':2200,'capacity':2,'img':'/static/images/superior_double.jpg'},
+            {'id':7,'name':'Penthouse Suite','price':8500,'capacity':4,'img':'/static/images/penthouse.jpg'},
+            {'id':8,'name':'Economy Twin','price':1800,'capacity':2,'img':'/static/images/economy_twin.jpg'},
+            {'id':9,'name':'Junior Suite','price':3200,'capacity':3,'img':'/static/images/junior_suite.jpeg'}
+        ] %}
+
+        {% for room in rooms_list %}
+        <div class="col-lg-4 col-md-6">
             <div class="card h-100 shadow-lg border-0 overflow-hidden room-card">
 
-                <!-- BED IMAGE (BASED ON ROOM TYPE) -->
+                <!-- BED IMAGE -->
                 <div class="position-relative" style="height:280px;">
                     <img src="{{ room.img }}"
                          alt="{{ room.name }}"
@@ -80,7 +82,8 @@
                             <h3 class="text-success mb-0">₹{{ room.price }}</h3>
                             <small class="text-muted">per night</small>
                         </div>
-                        <a href="{{ url_for('book', room_id=room.id) }}"
+                        <!-- FIXED: Use room['id'] instead of room.id -->
+                        <a href="{{ url_for('book', room_id=room['id']) }}"
                            class="btn btn-success btn-lg px-4 shadow-sm">
                             Book Now
                         </a>
