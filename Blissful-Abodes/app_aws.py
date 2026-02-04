@@ -121,6 +121,10 @@ def book(room_id):
     if not room:
         return "Room not found"
 
+    # ✅ FIX: Decimal → int (ONLY CHANGE)
+    if "capacity" in room:
+        room["capacity"] = int(room["capacity"])
+
     if request.method == "POST":
         booking_id = str(uuid.uuid4())
 
